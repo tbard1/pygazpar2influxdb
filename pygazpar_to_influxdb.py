@@ -16,6 +16,7 @@ import os
 from paho.mqtt import client as mqtt_client
 import urllib.parse as urlparse
 import random
+import time
 
 url_influxdb = os.environ['PYGAZPAR_INFLUXDB2_HOST']
 bucket_influxdb = os.environ['PYGAZPAR_INFLUXDB2_BUCKET']
