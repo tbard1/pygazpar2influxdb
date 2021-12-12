@@ -13,7 +13,8 @@ import decimal
 from decimal import Decimal
 import pygazpar
 import os
-
+import paho.mqtt.client as mqtt
+import urlparse
 
 url_influxdb = os.environ['PYGAZPAR_INFLUXDB2_HOST']
 bucket_influxdb = os.environ['PYGAZPAR_INFLUXDB2_BUCKET']
@@ -25,6 +26,10 @@ password_pygazpar = os.environ['PYGAZPAR_PYGAZPAR_PASSWORD']
 pce_pygazpar = os.environ['PYGAZPAR_PCE_IDENTIFIER']
 pce_lastNDays = int(os.environ['PYGAZPAR_LASTNDAY'])
 
+url_mqtt = os.environ['PYGAZPAR_MQTT_URL']
+url.username = os.environ['PYGAZPAR_MQTT_LOGIN']
+url.password = os.environ['PYGAZPAR_MQTT_PASSWORD']
+#xxxxxxxxxxxx = os.environ['PYGAZPAR_XXXXXXXXXXXXXXX']
 
 parser = argparse.ArgumentParser()
 
@@ -110,13 +115,9 @@ write_api.write(bucket=bucket_influxdb, record=jsonInflux)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-import paho.mqtt.client as mqtt
-import urlparse
 
-url_mqtt = os.environ['PYGAZPAR_MQTT_URL']
-url.username = os.environ['PYGAZPAR_MQTT_LOGIN']
-url.password = os.environ['PYGAZPAR_MQTT_PASSWORD']
-#org_influxdb = os.environ['PYGAZPAR_INFLUXDB2_ORG']
+
+
 
 
 # Define event callbacks
@@ -143,7 +144,7 @@ mqttc.on_publish = on_publish
 mqttc.on_subscribe = on_subscribe
 
 # Uncomment to enable debug messages
-#mqttc.on_log = on_log
+mqttc.on_log = on_log
 
 # Parse CLOUDMQTT_URL (or fallback to localhost)
 url_str = os.environ.get('url_mqtt:1883')
