@@ -27,8 +27,8 @@ pce_pygazpar = os.environ['PYGAZPAR_PCE_IDENTIFIER']
 pce_lastNDays = int(os.environ['PYGAZPAR_LASTNDAY'])
 
 url_mqtt = os.environ['PYGAZPAR_MQTT_URL']
-url.username = os.environ['PYGAZPAR_MQTT_LOGIN']
-url.password = os.environ['PYGAZPAR_MQTT_PASSWORD']
+url_username = os.environ['PYGAZPAR_MQTT_LOGIN']
+url_password = os.environ['PYGAZPAR_MQTT_PASSWORD']
 #xxxxxxxxxxxx = os.environ['PYGAZPAR_XXXXXXXXXXXXXXX']
 
 parser = argparse.ArgumentParser()
@@ -152,7 +152,7 @@ url = urlparse.urlparse(url_str)
 #topic = url.path[1:] or 'test'
 
 # Connect
-mqttc.username_pw_set(url.username, url.password)
+mqttc.username_pw_set(url_username, url_password)
 mqttc.connect(url.hostname, url.port)
 
 # Start subscribe, with QoS level 0
