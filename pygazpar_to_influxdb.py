@@ -14,7 +14,7 @@ from decimal import Decimal
 import pygazpar
 import os
 import paho.mqtt.client as mqtt
-import urlparse
+import urllib
 
 url_influxdb = os.environ['PYGAZPAR_INFLUXDB2_HOST']
 bucket_influxdb = os.environ['PYGAZPAR_INFLUXDB2_BUCKET']
