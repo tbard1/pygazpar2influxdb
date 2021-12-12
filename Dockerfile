@@ -9,7 +9,7 @@ RUN  apt update \
 WORKDIR /data
 
 COPY . /data
-
+RUN pip install --upgrade pip
 RUN pip3 install -r requirements.txt
 
 CMD ["python3", "./pygazpar_to_influxdb.py", "-vvv"]
