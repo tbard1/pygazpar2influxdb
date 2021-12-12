@@ -13,7 +13,7 @@ import decimal
 from decimal import Decimal
 import pygazpar
 import os
-import paho.mqtt.client as mqtt
+from paho.mqtt import client as mqtt_client
 import urllib.parse as urlparse
 import random
 
