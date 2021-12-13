@@ -58,8 +58,8 @@ influxclient = InfluxDBClient(url=url_influxdb, token=token_influxdb, org=org_in
 write_api = influxclient.write_api(write_options=SYNCHRONOUS)
 
 #------------------------------------------------- 
-        
-client = pygazpar.Client(username=login_pygazpar, password=password_pygazpar, pceIdentifier=pce_pygazpar, meterReadingFrequency=Frequency.DAILY, lastNDays=pce_lastNDays, tmpDirectory='/tmp')
+    
+     
 
 log.debug('Starting to update pygazpar data')
 client.update()
@@ -96,8 +96,7 @@ write_api.write(bucket=bucket_influxdb, record=jsonInflux)
 
 
 #############################################################################################################################
-
-#MQTT_MSG = json.dumps(data);
+data = str(client.data()) 
 
 vrai_json = str('{"releves": ' + str(data) + '}').replace("'","\"").replace("u\"","\"");
 #print vrai_json
@@ -105,20 +104,13 @@ datalist = json.loads(vrai_json);
 MQTT_MSG = json.dumps(datalist['releves'][len(datalist['releves'])-1]);
 #print datalist
 # Define on_publish event function
-
-# Define on_publish event function
 def on_publish(client, userdata, mid):
 #    print("Message Published...");
     sent = 1;
 
- 
-client = mqtt(client_id)
-client.username_pw_set(username, password)
 def on_connect(client, userdata, flags, rc):
-
     client.subscribe(MQTT_TOPIC);
     client.publish(MQTT_TOPIC, MQTT_MSG);
-
 
 def on_message(client, userdata, msg):
 #    print(msg.topic)
