@@ -97,7 +97,7 @@ write_api.write(bucket=bucket_influxdb, record=jsonInflux)
 
 #############################################################################################################################
 
-MQTT_MSG = json.dumps(data);
+#MQTT_MSG = json.dumps(data);
 
 vrai_json = str('{"releves": ' + str(data) + '}').replace("'","\"").replace("u\"","\"");
 #print vrai_json
@@ -112,7 +112,7 @@ def on_publish(client, userdata, mid):
     sent = 1;
 
  
-client = mqtt_client(client_id)
+client = mqtt(client_id)
 client.username_pw_set(username, password)
 def on_connect(client, userdata, flags, rc):
 
