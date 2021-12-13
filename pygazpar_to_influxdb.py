@@ -33,13 +33,10 @@ port = 1883
 username = os.environ['PYGAZPAR_MQTT_LOGIN']
 password = os.environ['PYGAZPAR_MQTT_PASSWORD']
 #xxxxxxxxxxxx = os.environ['PYGAZPAR_XXXXXXXXXXXXXXX']
-topic = "/python/mqtt"
-client_id = f'python-mqtt-{random.randint(0, 1000)}'
+topic = "gazpar_gateway"
+client_id = "gazpar_gateway"
 
 
-
-topic = "/python/mqtt"
-client_id = f'python-mqtt-{random.randint(0, 1000)}'
 
 
 parser = argparse.ArgumentParser()
@@ -114,10 +111,11 @@ def connect_mqtt():
 
 
 def publish(client):
-    msg_count = 0
-    while True:
-        time.sleep(1)
-        msg = f"messages: {msg_count}"
+#    msg_count = 0
+#    while True:
+#        time.sleep(1)
+#        msg = f"messages: {msg_count}"
+        msg = jsonInflux
         result = client.publish(topic, msg)
         # result: [0, 1]
         status = result[0]
@@ -125,7 +123,7 @@ def publish(client):
             print(f"Send `{msg}` to topic `{topic}`")
         else:
             print(f"Failed to send message to topic {topic}")
-        msg_count += 1
+#        msg_count += 1
 
 
 def run():
