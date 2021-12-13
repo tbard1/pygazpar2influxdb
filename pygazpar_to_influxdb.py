@@ -112,10 +112,10 @@ def on_publish(client, userdata, mid):
     sent = 1;
 
  
-
+client = mqtt_client(client_id)
+client.username_pw_set(username, password)
 def on_connect(client, userdata, flags, rc):
-    client = mqtt_client.Client(client_id)
-    client.username_pw_set(username, password)
+
     client.subscribe(MQTT_TOPIC);
     client.publish(MQTT_TOPIC, MQTT_MSG);
 
