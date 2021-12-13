@@ -67,7 +67,7 @@ log.debug('End update pygazpar data')
 
 data = client.data()
 ##################################
-print data
+print (data)
 ##################################
 
 jsonInflux = []
