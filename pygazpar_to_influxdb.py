@@ -106,33 +106,19 @@ MQTT_MSG = json.dumps(datalist['releves'][len(datalist['releves'])-1]);
 #print datalist
 # Define on_publish event function
 
-def publish(client):
-#    msg_count = 0
-#    while True:
-#        time.sleep(1)
-#        msg = f"messages: {msg_count}"
-        msg = jsonInflux
-        result = client.publish("topic", payload=json.dumps(msg), qos=2, retain=False)
-        # result: [0, 1]
-        status = result[0]
-        if status == 0:
-            print(f"Send `{msg}` to topic `{topic}`")
-        else:
-            print(f"Failed to send message to topic {topic}")
-#        msg_count += 1
+# Define on_publish event function
+def on_publish(client, userdata, mid):
+#    print("Message Published...");
+    sent = 1;
 
-def connect_mqtt():
-    def on_connect(client, userdata, flags, rc):
-        if rc == 0:
-            print("Connected to MQTT Broker!")
-        else:
-            print("Failed to connect, return code %d\n", rc)
+ 
 
+def on_connect(client, userdata, flags, rc):
     client = mqtt_client.Client(client_id)
     client.username_pw_set(username, password)
-    client.on_connect = on_connect
-    client.connect(broker, port)
-    return client    
+    client.subscribe(MQTT_TOPIC);
+    client.publish(MQTT_TOPIC, MQTT_MSG);
+
 
 def on_message(client, userdata, msg):
 #    print(msg.topic)
