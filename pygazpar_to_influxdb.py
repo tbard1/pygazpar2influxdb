@@ -102,10 +102,10 @@ vrai_json = str('{"releves": ' + str(data) + '}').replace("'","\"").replace("u\"
 #print vrai_json
 datalist = json.loads(vrai_json);
 MQTT_MSG = json.dumps(datalist['releves'][len(datalist['releves'])-1]);
-#print datalist
+print datalist
 # Define on_publish event function
 def on_publish(client, userdata, mid):
-#    print("Message Published...");
+    print("Message Published...");
     sent = 1;
 
 def on_connect(client, userdata, flags, rc):
@@ -113,12 +113,12 @@ def on_connect(client, userdata, flags, rc):
     client.publish(MQTT_TOPIC, MQTT_MSG);
 
 def on_message(client, userdata, msg):
-#    print(msg.topic)
-#    print(msg.payload) # <- do you mean this payload = {...} ?
+    print(msg.topic)
+    print(msg.payload) # <- do you mean this payload = {...} ?
     payload = json.loads(msg.payload); # you can use json.loads to convert string to json
-#    print(datalist['releves'][0]);
-#    print("GRDF data timestamp: " + datalist['releves'][0]['timestamp']); # data retrieval timestamp
-#    print("Latest available Gazpar data: " + datalist['releves'][len(datalist['releves'])-1]['date']); # latest data available to GRDF
+    print(datalist['releves'][0]);
+    print("GRDF data timestamp: " + datalist['releves'][0]['timestamp']); # data retrieval timestamp
+    print("Latest available Gazpar data: " + datalist['releves'][len(datalist['releves'])-1]['date']); # latest data available to GRDF
     client.disconnect(); # Got message then disconnect
 
 # Initiate MQTT Client
