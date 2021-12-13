@@ -32,7 +32,7 @@ MQTT_PORT = 1883
 username = os.environ['PYGAZPAR_MQTT_LOGIN']
 password = os.environ['PYGAZPAR_MQTT_PASSWORD']
 #xxxxxxxxxxxx = os.environ['PYGAZPAR_XXXXXXXXXXXXXXX']
-MQTT_TOPIC = "Gazpar_payload"
+MQTT_TOPIC = "homeassistant/Gazpar"
 client_id = "gazpar_gateway"
 
 MQTT_KEEPALIVE_INTERVAL = 3600
