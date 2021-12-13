@@ -66,6 +66,9 @@ client.update()
 log.debug('End update pygazpar data')
 
 data = client.data()
+##################################
+print data
+##################################
 
 jsonInflux = []
 
@@ -116,7 +119,7 @@ def publish(client):
 #        time.sleep(1)
 #        msg = f"messages: {msg_count}"
         msg = jsonInflux
-        result = client.publish(topic, data)
+        result = client.publish(topic, measure)
         # result: [0, 1]
         status = result[0]
         if status == 0:
