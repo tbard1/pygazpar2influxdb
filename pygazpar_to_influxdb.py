@@ -116,7 +116,7 @@ def publish(client):
 #        time.sleep(1)
 #        msg = f"messages: {msg_count}"
         msg = jsonInflux
-        result = client.publish(topic, msg)
+        result = client.publish(topic, "msg")
         # result: [0, 1]
         status = result[0]
         if status == 0:
