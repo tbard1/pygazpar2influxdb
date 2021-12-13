@@ -102,7 +102,7 @@ vrai_json = str('{"releves": ' + str(data) + '}').replace("'","\"").replace("u\"
 #print vrai_json
 datalist = json.loads(vrai_json);
 MQTT_MSG = json.dumps(datalist['releves'][len(datalist['releves'])-1]);
-print datalist
+print (datalist)
 # Define on_publish event function
 def on_publish(client, userdata, mid):
     print("Message Published...");
