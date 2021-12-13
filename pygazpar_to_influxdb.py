@@ -15,8 +15,7 @@ import pygazpar
 import os
 from paho.mqtt import client as mqtt_client
 import urllib.parse as urlparse
-import random
-import time
+import ast
 
 url_influxdb = os.environ['PYGAZPAR_INFLUXDB2_HOST']
 bucket_influxdb = os.environ['PYGAZPAR_INFLUXDB2_BUCKET']
@@ -28,14 +27,15 @@ password_pygazpar = os.environ['PYGAZPAR_PYGAZPAR_PASSWORD']
 pce_pygazpar = os.environ['PYGAZPAR_PCE_IDENTIFIER']
 pce_lastNDays = int(os.environ['PYGAZPAR_LASTNDAY'])
 
-broker = os.environ['PYGAZPAR_MQTT_URL']
-port = 1883
+MQTT_HOST = os.environ['PYGAZPAR_MQTT_URL']
+MQTT_PORT = 1883
 username = os.environ['PYGAZPAR_MQTT_LOGIN']
 password = os.environ['PYGAZPAR_MQTT_PASSWORD']
 #xxxxxxxxxxxx = os.environ['PYGAZPAR_XXXXXXXXXXXXXXX']
-topic = "gazpar_gateway"
+MQTT_TOPIC = "Gazpar_payload"
 client_id = "gazpar_gateway"
 
+MQTT_KEEPALIVE_INTERVAL = 3600
 
 
 
@@ -66,9 +66,7 @@ client.update()
 log.debug('End update pygazpar data')
 
 data = client.data()
-##################################
-print (data)
-##################################
+
 
 jsonInflux = []
 
@@ -99,19 +97,14 @@ write_api.write(bucket=bucket_influxdb, record=jsonInflux)
 
 #############################################################################################################################
 
-def connect_mqtt():
-    def on_connect(client, userdata, flags, rc):
-        if rc == 0:
-            print("Connected to MQTT Broker!")
-        else:
-            print("Failed to connect, return code %d\n", rc)
+MQTT_MSG = json.dumps(data);
 
-    client = mqtt_client.Client(client_id)
-    client.username_pw_set(username, password)
-    client.on_connect = on_connect
-    client.connect(broker, port)
-    return client
-
+vrai_json = str('{"releves": ' + str(data) + '}').replace("'","\"").replace("u\"","\"");
+#print vrai_json
+datalist = json.loads(vrai_json);
+MQTT_MSG = json.dumps(datalist['releves'][len(datalist['releves'])-1]);
+#print datalist
+# Define on_publish event function
 
 def publish(client):
 #    msg_count = 0
@@ -128,13 +121,38 @@ def publish(client):
             print(f"Failed to send message to topic {topic}")
 #        msg_count += 1
 
-###############client.publish("topic", payload=json.dumps(send_msg), qos=2, retain=False)
+def connect_mqtt():
+    def on_connect(client, userdata, flags, rc):
+        if rc == 0:
+            print("Connected to MQTT Broker!")
+        else:
+            print("Failed to connect, return code %d\n", rc)
 
-def run():
-    client = connect_mqtt()
-    client.loop_start()
-    publish(client)
+    client = mqtt_client.Client(client_id)
+    client.username_pw_set(username, password)
+    client.on_connect = on_connect
+    client.connect(broker, port)
+    return client    
 
+def on_message(client, userdata, msg):
+#    print(msg.topic)
+#    print(msg.payload) # <- do you mean this payload = {...} ?
+    payload = json.loads(msg.payload); # you can use json.loads to convert string to json
+#    print(datalist['releves'][0]);
+#    print("GRDF data timestamp: " + datalist['releves'][0]['timestamp']); # data retrieval timestamp
+#    print("Latest available Gazpar data: " + datalist['releves'][len(datalist['releves'])-1]['date']); # latest data available to GRDF
+    client.disconnect(); # Got message then disconnect
 
-if __name__ == '__main__':
-    run()
+# Initiate MQTT Client
+mqttc = mqtt.Client();
+
+# Register publish callback function
+mqttc.on_publish = on_publish;
+mqttc.on_connect = on_connect;
+mqttc.on_message = on_message;
+
+# Connect with MQTT Broker
+mqttc.connect(MQTT_HOST, MQTT_PORT, MQTT_KEEPALIVE_INTERVAL);
+
+# Loop forever
+mqttc.loop_forever();
