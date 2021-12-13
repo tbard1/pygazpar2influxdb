@@ -119,7 +119,7 @@ def publish(client):
 #        time.sleep(1)
 #        msg = f"messages: {msg_count}"
         msg = jsonInflux
-        result = client.publish(topic, measure)
+        result = client.publish("topic", payload=json.dumps(msg), qos=2, retain=False)
         # result: [0, 1]
         status = result[0]
         if status == 0:
@@ -128,6 +128,7 @@ def publish(client):
             print(f"Failed to send message to topic {topic}")
 #        msg_count += 1
 
+###############client.publish("topic", payload=json.dumps(send_msg), qos=2, retain=False)
 
 def run():
     client = connect_mqtt()
