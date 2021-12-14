@@ -111,6 +111,8 @@ def on_publish(client, userdata, mid):
 def on_connect(client, userdata, flags, rc):
     client.subscribe(MQTT_TOPIC);
     client.publish(MQTT_TOPIC, MQTT_MSG);
+    volume_m3=("time",volume_m3)
+    client.publish(MQTT_TOPIC/volume_m3, volume_m3);
 
 def on_message(client, userdata, msg):
     print(msg.topic)
