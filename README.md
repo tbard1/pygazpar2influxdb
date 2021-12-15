@@ -50,6 +50,15 @@ With:
 - PYPAZPAR_PCE_IDENTIFIER="Identifier opf your GRDF PCE (remove blanks)"
 - PYGAZPAR_LASTNDAY="number of days of datas " by default put 10
 
+- PYGAZPAR_MQTT_URL="local ip host of your MQTT"
+- PYGAZPAR_MQTT_LOGIN="login of your MQTT"
+- PYGAZPAR_MQTT_PASSWORD="password of your MQTT"
+
+
+
+MQTT_KEEPALIVE_INTERVAL = 3600
+
+
 For Influxdb 1.8: (not tested)
 With:
 - PYPAZPAR_INFLUXDB2_HOST="local ip host of your Influxdb database:port of yourInfluxdb database" exemple: "192.168.1.20:8086"
@@ -60,3 +69,7 @@ With:
 - PYPAZPAR_PYGAZPAR_PASSWORD="password of your GRDF password"
 - PYPAZPAR_PCE_IDENTIFIER="Identifier opf your GRDF PCE (remove blanks)"
 - PYGAZPAR_LASTNDAY="number of days of datas " by default put 10
+
+- PYGAZPAR_MQTT_URL="local ip host of your MQTT"
+- PYGAZPAR_MQTT_LOGIN="login of your MQTT"
+- PYGAZPAR_MQTT_PASSWORD="password of your MQTT"
