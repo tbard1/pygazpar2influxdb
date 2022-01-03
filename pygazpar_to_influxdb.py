@@ -90,5 +90,5 @@ schedule.every().day.at("01:00").do(g2i)
 
 while True:
    schedule.run_pending()
-time.sleep(1)
+time.sleep()
 
